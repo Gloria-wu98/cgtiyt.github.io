@@ -1,716 +1,499 @@
-{\rtf1\ansi\ansicpg950\cocoartf2822
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset136 PingFangTC-Regular;\f2\fnil\fcharset0 LucidaGrande;
-\f3\fnil\fcharset77 ZapfDingbatsITC;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww12720\viewh7240\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>看影片學雙語（台語，英文）- 互動遊戲版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Import Google Font: Noto Sans TC for Traditional Chinese */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f7fafc; /* Light background */
+            color: #2d3748; /* Default text color */
+        }
+        .card {
+            transition: all 0.3s ease;
+            border-radius: 0.75rem; /* More rounded corners */
+            /* Default border and text color */
+            border: 2px solid #e2e8f0;
+            color: #4a5568;
+        }
+        .card:hover:not(.cursor-not-allowed) {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); /* Enhanced hover shadow */
+            border-color: #4299e1; /* Blue border on hover */
+            color: #3182ce; /* Blue text on hover */
+        }
+        /* Animation for correct answer */
+        .correct-answer {
+            animation: pulse 0.8s ease-in-out;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        /* Animation for wrong answer */
+        .wrong-answer {
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            50% { transform: translateX(6px); }
+            75% { transform: translateX(-6px); }
+        }
+        /* Gradient background for header */
+        .header-gradient {
+            background: linear-gradient(90deg, #4A90E2 0%, #50E3C2 100%);
+        }
+        /* Custom primary button style */
+        .btn-primary {
+            background-color: #4A90E2; /* Blue */
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 2rem; /* py-3 px-8 */
+            border-radius: 9999px; /* Pill shape */
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: #357ABD; /* Darker blue on hover */
+            transform: scale(1.05);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+         .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        /* Custom secondary button style */
+        .btn-secondary {
+            background-color: #50E3C2; /* Green */
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 2rem; /* py-3 px-8 */
+            border-radius: 9999px; /* Pill shape */
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+         .btn-secondary:hover:not(:disabled) {
+            background-color: #3dbaa2; /* Darker green on hover */
+            transform: scale(1.05);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+         .btn-secondary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
 
-\f0\fs24 \cf0 <!DOCTYPE html>\
-<html lang="zh-TW">\
-<head>\
-    <meta charset="UTF-8">\
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
-    <title>
-\f1 \'ac\'dd\'bc\'76\'a4\'f9\'be\'c7\'c2\'f9\'bb\'79\'a1\'5d\'a5\'78\'bb\'79\'a1\'41\'ad\'5e\'a4\'e5\'a1\'5e
-\f0 - 
-\f1 \'a4\'ac\'b0\'ca\'b9\'43\'c0\'b8\'aa\'a9
-\f0 </title>\
-    <script src="https://cdn.tailwindcss.com"></script>\
-    <style>\
-        /* Import Google Font: Noto Sans TC for Traditional Chinese */\
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');\
-        body \{\
-            font-family: 'Noto Sans TC', sans-serif;\
-            background-color: #f7fafc; /* Light background */\
-            color: #2d3748; /* Default text color */\
-        \}\
-        .card \{\
-            transition: all 0.3s ease;\
-            border-radius: 0.75rem; /* More rounded corners */\
-            /* Default border and text color */\
-            border: 2px solid #e2e8f0;\
-            color: #4a5568;\
-        \}\
-        .card:hover:not(.cursor-not-allowed) \{\
-            transform: translateY(-6px);\
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); /* Enhanced hover shadow */\
-            border-color: #4299e1; /* Blue border on hover */\
-            color: #3182ce; /* Blue text on hover */\
-        \}\
-        /* Animation for correct answer */\
-        .correct-answer \{\
-            animation: pulse 0.8s ease-in-out;\
-        \}\
-        @keyframes pulse \{\
-            0% \{ transform: scale(1); \}\
-            50% \{ transform: scale(1.03); \}\
-            100% \{ transform: scale(1); \}\
-        \}\
-        /* Animation for wrong answer */\
-        .wrong-answer \{\
-            animation: shake 0.5s;\
-        \}\
-        @keyframes shake \{\
-            0%, 100% \{ transform: translateX(0); \}\
-            25% \{ transform: translateX(-6px); \}\
-            50% \{ transform: translateX(6px); \}\
-            75% \{ transform: translateX(-6px); \}\
-        \}\
-        /* Gradient background for header */\
-        .header-gradient \{\
-            background: linear-gradient(90deg, #4A90E2 0%, #50E3C2 100%);\
-        \}\
-        /* Custom primary button style */\
-        .btn-primary \{\
-            background-color: #4A90E2; /* Blue */\
-            color: white;\
-            font-weight: bold;\
-            padding: 0.75rem 2rem; /* py-3 px-8 */\
-            border-radius: 9999px; /* Pill shape */\
-            transition: all 0.3s ease;\
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\
-        \}\
-        .btn-primary:hover:not(:disabled) \{\
-            background-color: #357ABD; /* Darker blue on hover */\
-            transform: scale(1.05);\
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);\
-        \}\
-         .btn-primary:disabled \{\
-            opacity: 0.6;\
-            cursor: not-allowed;\
-        \}\
-        /* Custom secondary button style */\
-        .btn-secondary \{\
-            background-color: #50E3C2; /* Green */\
-            color: white;\
-            font-weight: bold;\
-            padding: 0.75rem 2rem; /* py-3 px-8 */\
-            border-radius: 9999px; /* Pill shape */\
-            transition: all 0.3s ease;\
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\
-        \}\
-         .btn-secondary:hover:not(:disabled) \{\
-            background-color: #3dbaa2; /* Darker green on hover */\
-            transform: scale(1.05);\
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);\
-        \}\
-         .btn-secondary:disabled \{\
-            opacity: 0.6;\
-            cursor: not-allowed;\
-        \}\
-\
-        /* Styling for disabled option cards after answer */\
-        .options-disabled .card \{\
-            pointer-events: none; /* Disable click events */\
-        \}\
-         .options-disabled .card:hover \{\
-            transform: none; /* Remove hover transform */\
-            box-shadow: none; /* Remove hover shadow */\
-        \}\
-    </style>\
-</head>\
-<body class="text-gray-800">\
-    <div class="container mx-auto px-4 py-8 max-w-3xl">\
-        <div class="text-center mb-10 p-6 rounded-xl shadow-lg header-gradient">\
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">
-\f1 \'c2\'f9\'bb\'79\'be\'c7\'b2\'df\'ac\'44\'be\'d4
-\f0 </h1>\
-            <p class="text-lg text-indigo-100 mb-2">
-\f1 \'a1\'5d\'a5\'78\'bb\'79
-\f0  / 
-\f1 \'ad\'5e\'a4\'e5\'a1\'5e
-\f0 </p>\
-            <p class="text-sm text-indigo-200">
-\f1 \'a5\'d1
-\f0  Gloria 
-\f1 \'a7\'64\'a8\'71\'c4\'f5\'a6\'d1\'ae\'76\'b3\'5d\'ad\'70
-\f0 </p>\
-            <div class="flex justify-center items-center space-x-2 mt-4">\
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">\
-                    <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>\
-                </svg>\
-                <a href="https://youtu.be/PrF6aT8mi_c?si=SUJtXRbfiitB2kU1" target="_blank" class="text-white hover:underline font-medium">\
-                    
-\f1 \'b0\'d1\'a6\'d2\'bc\'76\'a4\'f9\'b1\'d0\'be\'c7
-\f0 \
-                </a>\
-            </div>\
-        </div>\
-\
-        <div id="game-container" class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 mb-8">\
-            <div id="welcome-screen" class="text-center py-10">\
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">
-\f1 \'c5\'77\'aa\'ef\'a8\'d3\'a8\'ec\'a5\'78\'bb\'79\'ad\'5e\'a4\'e5\'a4\'ac\'b0\'ca\'be\'c7\'b2\'df\'a1\'49
-\f0 </h2>\
-                <p class="text-lg text-gray-600 mb-8 leading-relaxed">\
-                    
-\f1 \'a5\'bb\'b9\'43\'c0\'b8\'a5\'5d\'a7\'74\'a8\'e2\'a4\'6a\'ac\'44\'be\'d4\'a1\'47
-\f0 <br>\
-                    1. <span class="font-semibold text-blue-600">
-\f1 \'a5\'78\'bb\'79\'ba\'7e\'a6\'72
-\f0 </span> 
-\f1 \'b0\'74\'b9\'ef
-\f0  <span class="font-semibold text-green-600">
-\f1 \'ad\'5e\'a4\'e5\'c2\'bd\'c4\'b6
-\f0 </span> (10
-\f1 \'c3\'44
-\f0 )<br>\
-                    2. <span class="font-semibold text-green-600">
-\f1 \'ad\'5e\'a4\'e5\'c2\'bd\'c4\'b6
-\f0 </span> 
-\f1 \'b0\'74\'b9\'ef
-\f0  <span class="font-semibold text-blue-600">
-\f1 \'a5\'78\'bb\'79\'ba\'7e\'a6\'72
-\f0 </span> (10
-\f1 \'c3\'44
-\f0 )\
-                </p>\
-                <p class="text-gray-600 mb-10">
-\f1 \'b7\'c7\'b3\'c6\'a6\'6e\'b6\'7d\'a9\'6c\'a4\'46\'b6\'dc\'a1\'48
-\f0 </p>\
-                <button id="start-game" class="btn-primary text-lg transform hover:scale-105">\
-                    
-\f1 \'b6\'7d\'a9\'6c\'ac\'44\'be\'d4\'a1\'49
-\f0 \
-                </button>\
-            </div>\
-\
-            <div id="quiz-section" class="hidden">\
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b border-gray-200">\
-                    <h2 id="quiz-title" class="text-2xl font-bold text-blue-700 mb-2 sm:mb-0"></h2>\
-                    <div class="flex items-center bg-gray-100 px-4 py-2 rounded-lg">\
-                        <span class="mr-2 text-gray-700 text-sm">
-\f1 \'a5\'d8\'ab\'65\'b1\'6f\'a4\'c0
-\f0 :</span>\
-                        <span id="score" class="text-xl font-bold text-blue-600">0</span>\
-                        <span class="mx-1 text-gray-500">/</span>\
-                        <span id="total-questions" class="text-xl font-bold text-gray-600">10</span>\
-                    </div>\
-                </div>\
-                <div class="mb-8">\
-                    <div class="bg-blue-50 p-6 rounded-lg shadow-md mb-6">\
-                        <h3 class="text-md font-semibold text-gray-500 mb-2">
-\f1 \'c3\'44\'a5\'d8
-\f0  <span id="current-question" class="text-blue-700 font-bold">1</span>/10:</h3>\
-                        <p id="question" class="text-3xl font-bold text-blue-800"></p>\
-                    </div>\
-                    <div id="options" class="grid grid-cols-1 md:grid-cols-2 gap-5">\
-                        </div>\
-                </div>\
-                <div id="feedback" class="hidden mb-6 p-5 rounded-lg text-center text-lg"></div>\
-                <div class="flex justify-between items-center mt-8">\
-                    <button id="prev-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hidden transition-colors">\
-                        
-\f1 \'a4\'57\'a4\'40\'c3\'44
-\f0 \
-                    </button>\
-                    <button id="next-btn" class="btn-primary py-3 px-7 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hidden transform hover:scale-105">\
-                        
-\f1 \'a4\'55\'a4\'40\'c3\'44
-\f0 \
-                    </button>\
-                </div>\
-            </div>\
-\
-            <div id="results-section" class="hidden">\
-                <h2 class="text-3xl font-bold text-blue-700 mb-8 text-center">
-\f1 \'b4\'fa\'c5\'e7\'b5\'b2\'aa\'47
-\f0 </h2>\
-                <div id="results-content" class="mb-8">\
-                </div>\
-                <div id="part-complete-buttons" class="hidden flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4">\
-                    <button id="restart-part" class="btn-primary">\
-                        
-\f1 \'ad\'ab\'b7\'73\'b4\'fa\'c5\'e7\'a5\'bb\'b3\'a1\'a4\'c0
-\f0 \
-                    </button>\
-                    <button id="next-part" class="btn-secondary">\
-                        
-\f1 \'ac\'44\'be\'d4\'a4\'55\'a4\'40\'b3\'a1\'a4\'c0
-\f0 \
-                    </button>\
-                </div>\
-                 <div id="final-buttons" class="hidden flex justify-center space-x-4 mt-6">\
-                    <button id="restart-game" class="btn-primary text-lg">\
-                        
-\f1 \'ad\'ab\'b7\'73\'b6\'7d\'a9\'6c\'b9\'43\'c0\'b8
-\f0 \
-                    </button>\
-                </div>\
-            </div>\
-        </div>\
-\
-        <footer class="text-center mt-12 mb-6">\
-            <p class="text-sm text-gray-500">\'a9 <span id="current-year"></span> 
-\f1 \'c2\'f9\'bb\'79\'be\'c7\'b2\'df\'ac\'44\'be\'d4
-\f0 . Gloria 
-\f1 \'a7\'64\'a8\'71\'c4\'f5\'a6\'d1\'ae\'76\'b3\'5d\'ad\'70
-\f0 .</p>\
-        </footer>\
-    </div>\
-\
-    <script>\
-        // Set the current year in the footer\
-        document.getElementById('current-year').textContent = new Date().getFullYear();\
-\
-        document.addEventListener('DOMContentLoaded', function() \{\
-            // Quiz data: Contains different parts with questions and answers\
-            const quizData = [\
-                \{\
-                    title: "
-\f1 \'b2\'c4\'a4\'40\'b3\'a1\'a4\'c0\'a1\'47\'a5\'78\'bb\'79\'ba\'7e\'a6\'72\'b0\'74\'b9\'ef\'ad\'5e\'a4\'e5\'c2\'bd\'c4\'b6
-\f0 ",\
-                    questions: [\
-                        \{ question: "
-\f1 \'a6\'6e\'a4\'d1
-\f0 ", options: ["Good day", "Good night", "Good morning", "Good weather"], answer: "Good weather" \},\
-                        \{ question: "
-\f1 \'b8\'a8\'ab\'42
-\f0 ", options: ["Sunny", "Rainy", "Cloudy", "Windy"], answer: "Rainy" \},\
-                        \{ question: "
-\f1 \'b3\'7a\'a6\'ad
-\f0 ", options: ["Evening", "Afternoon", "Morning", "Night"], answer: "Morning" \},\
-                        \{ question: "
-\f1 \'b1\'fd\'b5\'74
-\f0 ", options: ["Hungry", "Thirsty", "Sleepy", "Tired"], answer: "Sleepy" \},\
-                        \{ question: "
-\f1 \'ad\'b9\'b6\'ba
-\f0 ", options: ["Eat rice/meal", "Drink water", "Take a walk", "Go shopping"], answer: "Eat rice/meal" \},\
-                        \{ question: "
-\f1 \'ac\'7e\'a8\'ad\'c2\'df
-\f0 ", options: ["Wash clothes", "Take a bath", "Brush teeth", "Wash hands"], answer: "Take a bath" \},\
-                        \{ question: "
-\f1 \'c5\'aa\'a5\'55
-\f0 ", options: ["Watch TV", "Study", "Play games", "Listen to music"], answer: "Study" \},\
-                        \{ question: "
-\f1 \'a6\'e6\'b8\'f4
-\f0 ", options: ["Run", "Walk", "Jump", "Swim"], answer: "Walk" \},\
-                        \{ question: "
-\f1 \'c1\'bf\'b8\'dc
-\f0 ", options: ["Listen", "Speak", "Read", "Write"], answer: "Speak" \},\
-                        \{ question: "
-\f1 \'c5\'77\'b3\'df
-\f0 ", options: ["Sad", "Angry", "Happy", "Scared"], answer: "Happy" \}\
-                    ]\
-                \},\
-                \{\
-                    title: "
-\f1 \'b2\'c4\'a4\'47\'b3\'a1\'a4\'c0\'a1\'47\'ad\'5e\'a4\'e5\'c2\'bd\'c4\'b6\'b0\'74\'b9\'ef\'a5\'78\'bb\'79\'ba\'7e\'a6\'72
-\f0 ",\
-                    questions: [\
-                        \{ question: "Cold", options: ["
-\f1 \'bc\'f6
-\f0 ", "
-\f1 \'a7\'4e
-\f0 ", "
-\f1 \'bf\'4e
-\f0 ", "
-\f1 \'b2\'44
-\f0 "], answer: "
-\f1 \'a7\'4e
-\f0 " \},\
-                        \{ question: "Water", options: ["
-\f1 \'af\'f9
-\f0 ", "
-\f1 \'b0\'73
-\f0 ", "
-\f1 \'a4\'f4
-\f0 ", "
-\f1 \'b4\'f6
-\f0 "], answer: "
-\f1 \'a4\'f4
-\f0 " \},\
-                        \{ question: "Thank you", options: ["
-\f1 \'b9\'ef\'a4\'a3\'b0\'5f
-\f0 ", "
-\f1 \'a6\'41\'a8\'a3
-\f0 ", "
-\f1 \'a7\'41\'a6\'6e
-\f0 ", "
-\f1 \'a6\'68\'c1\'c2
-\f0 "], answer: "
-\f1 \'a6\'68\'c1\'c2
-\f0 " \},\
-                        \{ question: "Beautiful", options: ["
-\f1 \uc0\u23200 
-\f0 ", "
-\f1 \'c1\'e0
-\f0 ", "
-\f1 \'a6\'6e
-\f0 ", "
-\f1 \'c3\'61
-\f0 "], answer: "
-\f1 \uc0\u23200 
-\f0 " \},\
-                        \{ question: "Friend", options: ["
-\f1 \'ae\'61\'a4\'76\'a4\'48
-\f0 ", "
-\f1 \'aa\'42\'a4\'cd
-\f0 ", "
-\f1 \'a6\'d1\'ae\'76
-\f0 ", "
-\f1 \'be\'c7\'a5\'cd
-\f0 "], answer: "
-\f1 \'aa\'42\'a4\'cd
-\f0 " \},\
-                        \{ question: "School", options: ["
-\f1 \'a4\'bd\'b6\'e9
-\f0 ", "
-\f1 \'a5\'ab\'b3\'f5
-\f0 ", "
-\f1 \'be\'c7\'ae\'d5
-\f0 ", "
-\f1 \'c2\'e5\'b0\'7c
-\f0 "], answer: "
-\f1 \'be\'c7\'ae\'d5
-\f0 " \},\
-                        \{ question: "Money", options: ["
-\f1 \'bf\'fa
-\f0 ", "
-\f1 \'aa\'ab\'a5\'f3
-\f0 ", "
-\f1 \'ae\'c9\'b6\'a1
-\f0 ", "
-\f1 \'a4\'4f\'ae\'f0
-\f0 "], answer: "
-\f1 \'bf\'fa
-\f0 " \},\
-                        \{ question: "Family", options: ["
-\f1 \'ad\'ed\'c3\'e4
-\f0 ", "
-\f1 \'aa\'42\'a4\'cd
-\f0 ", "
-\f1 \'ae\'61\'ae\'78
-\f0 ", "
-\f1 \'a6\'50\'a8\'c6
-\f0 "], answer: "
-\f1 \'ae\'61\'ae\'78
-\f0 " \},\
-                        \{ question: "Delicious", options: ["
-\f1 \'a6\'6e\'ad\'b9
-\f0 ", "
-\f1 \'c3\'f8\'ad\'b9
-\f0 ", "
-\f1 \'a6\'6e\'ac\'dd
-\f0 ", "
-\f1 \'a6\'6e\'c5\'a5
-\f0 "], answer: "
-\f1 \'a6\'6e\'ad\'b9
-\f0 " \},\
-                        \{ question: "Tomorrow", options: ["
-\f1 \'a4\'b5\'a5\'4a\'a4\'e9
-\f0 ", "
-\f1 \'a9\'fa\'a5\'4a\'b8\'fc
-\f0 ", "
-\f1 \'ac\'51\'a9\'fc
-\f0 ", "
-\f1 \'ab\'e1\'a4\'e9
-\f0 "], answer: "
-\f1 \'a9\'fa\'a5\'4a\'b8\'fc
-\f0 " \}\
-                    ]\
-                \}\
-            ];\
-\
-            // Game state variables\
-            let currentPart = 0; // Index of the current quiz part\
-            let currentQuestion = 0; // Index of the current question within the part\
-            let score = 0; // Current score for the part\
-            let userAnswers = []; // Array to store user's answers for the current part\
-            let answeredThisTurn = false; // Flag to prevent multiple clicks on options for one question\
-\
-            // Get references to DOM elements\
-            const welcomeScreen = document.getElementById('welcome-screen');\
-            const quizSection = document.getElementById('quiz-section');\
-            const resultsSection = document.getElementById('results-section');\
-            const quizTitle = document.getElementById('quiz-title');\
-            const scoreElement = document.getElementById('score');\
-            const totalQuestionsElement = document.getElementById('total-questions');\
-            const currentQuestionElement = document.getElementById('current-question');\
-            const questionElement = document.getElementById('question');\
-            const optionsContainer = document.getElementById('options');\
-            const feedbackElement = document.getElementById('feedback');\
-            const prevBtn = document.getElementById('prev-btn');\
-            const nextBtn = document.getElementById('next-btn');\
-            const resultsContent = document.getElementById('results-content');\
-            const partCompleteButtons = document.getElementById('part-complete-buttons');\
-            const finalButtons = document.getElementById('final-buttons');\
-\
-            // Add event listeners to buttons\
-            document.getElementById('start-game').addEventListener('click', startGame);\
-            document.getElementById('restart-part').addEventListener('click', restartPart);\
-            document.getElementById('next-part').addEventListener('click', nextPart);\
-            document.getElementById('restart-game').addEventListener('click', restartGame);\
-            prevBtn.addEventListener('click', showPreviousQuestion);\
-            nextBtn.addEventListener('click', showNextQuestion);\
-\
-            // Function to start the game from the welcome screen\
-            function startGame() \{\
-                welcomeScreen.classList.add('hidden'); // Hide welcome screen\
-                quizSection.classList.remove('hidden'); // Show quiz section\
-                resultsSection.classList.add('hidden'); // Ensure results are hidden\
-                currentPart = 0; // Start with the first part\
-                initializePart(); // Initialize the first quiz part\
-            \}\
-\
-            // Function to initialize a new quiz part\
-            function initializePart() \{\
-                currentQuestion = 0; // Start with the first question of the part\
-                score = 0; // Reset score for the new part\
-                // Initialize userAnswers array with nulls for each question in the part\
-                userAnswers = Array(quizData[currentPart].questions.length).fill(null);\
-                quizTitle.textContent = quizData[currentPart].title; // Set the title for the current part\
-                scoreElement.textContent = score; // Display initial score\
-                totalQuestionsElement.textContent = quizData[currentPart].questions.length; // Display total questions\
-                loadQuestion(); // Load the first question\
-            \}\
-\
-            // Function to load and display the current question and its options\
-            function loadQuestion() \{\
-                answeredThisTurn = false; // Reset answered state for the new question\
-                const questionData = quizData[currentPart].questions[currentQuestion]; // Get data for the current question\
-\
-                // Update question number display\
-                currentQuestionElement.textContent = currentQuestion + 1;\
-                // Display the question text\
-                questionElement.textContent = questionData.question;\
-                // Clear previous options\
-                optionsContainer.innerHTML = '';\
-                // Remove options-disabled class from options container\
-                optionsContainer.classList.remove('options-disabled');\
-\
-                // Create and display option cards\
-                questionData.options.forEach((optionText) => \{\
-                    const optionCard = document.createElement('div');\
-                    // Apply base card styling with Tailwind classes\
-                    optionCard.className = 'card bg-white border-2 border-gray-200 rounded-lg p-5 cursor-pointer transition-all duration-200 ease-in-out text-gray-700 text-lg';\
-                    optionCard.textContent = optionText; // Set option text\
-                    optionCard.dataset.option = optionText; // Store the option text in a data attribute\
-\
-                    // Check if this question was already answered (e.g., when navigating back)\
-                    if (userAnswers[currentQuestion] !== null) \{\
-                        // If the question was answered, apply appropriate styling\
-                        answeredThisTurn = true; // Set answered state\
-                        optionCard.classList.add('cursor-not-allowed'); // Disable clicks\
-\
-                        // Apply styling based on whether this option was the user's answer\
-                        if (optionText === userAnswers[currentQuestion]) \{\
-                             if (optionText === questionData.answer) \{\
-                                // User's answer was correct\
-                                optionCard.classList.add('bg-green-50', 'border-green-500', 'text-green-700');\
-                            \} else \{\
-                                // User's answer was wrong\
-                                optionCard.classList.add('bg-red-50', 'border-red-500', 'text-red-700');\
-                            \}\
-                        \}\
-                         // If this option is the correct answer and the user picked something else, highlight the correct answer\
-                        else if (optionText === questionData.answer && userAnswers[currentQuestion] !== questionData.answer) \{\
-                             optionCard.classList.add('bg-green-50', 'border-green-400', 'text-green-600');\
-                        \}\
-                         // Remove hover effects for answered questions\
-                         optionCard.classList.remove('hover:border-blue-500', 'hover:text-blue-600', 'hover:shadow-lg');\
-\
-                    \} else \{\
-                        // If the question is not answered, add click listener\
-                        optionCard.addEventListener('click', () => selectOption(optionText, optionCard));\
-                         // Add hover effects for unanswered questions\
-                        optionCard.classList.add('hover:border-blue-500', 'hover:text-blue-600', 'hover:shadow-lg');\
-                    \}\
-                    optionsContainer.appendChild(optionCard); // Add option card to the container\
-                \});\
-\
-                updateNavigationButtons(); // Update the visibility of navigation buttons\
-                feedbackElement.classList.add('hidden'); // Hide feedback initially\
-                // Show feedback if the question was already answered\
-                if (userAnswers[currentQuestion] !== null) \{\
-                    showFeedback();\
-                    // Add options-disabled class to prevent further clicks\
-                    optionsContainer.classList.add('options-disabled');\
-                \}\
-            \}\
-\
-            // Function to handle user selecting an option\
-            function selectOption(selectedOption, selectedCard) \{\
-                if (answeredThisTurn) return; // Prevent re-answering if already answered\
-                answeredThisTurn = true; // Mark question as answered for this turn\
-\
-                const questionData = quizData[currentPart].questions[currentQuestion]; // Get current question data\
-                const isCorrect = selectedOption === questionData.answer; // Check if the selected option is correct\
-                userAnswers[currentQuestion] = selectedOption; // Store the user's answer\
-\
-                // Update score and apply styling based on correctness\
-                if (isCorrect) \{\
-                    score++; // Increment score if correct\
-                    scoreElement.textContent = score; // Update score display\
-                    selectedCard.classList.add('bg-green-100', 'border-green-500', 'correct-answer', 'text-green-700');\
-                \} else \{\
-                    selectedCard.classList.add('bg-red-100', 'border-red-500', 'wrong-answer', 'text-red-700');\
-                \}\
-\
-                // Disable all options after an answer is selected\
-                optionsContainer.querySelectorAll('.card').forEach(optCard => \{\
-                    optCard.removeEventListener('click', () => selectOption(optCard.dataset.option, optCard)); // Remove click listeners\
-                    optCard.classList.add('cursor-not-allowed'); // Change cursor\
-                    // Remove hover effects\
-                    optCard.classList.remove('hover:border-blue-500', 'hover:text-blue-600', 'hover:shadow-lg');\
-\
-                    // Highlight the correct answer if the user's answer was wrong\
-                    if (optCard.dataset.option === questionData.answer && !isCorrect) \{\
-                        optCard.classList.add('bg-green-100', 'border-green-500', 'text-green-700');\
-                        optCard.classList.remove('bg-red-100', 'border-red-500', 'text-red-700'); // Ensure no conflicting red styling\
-                    \}\
-                \});\
-\
-                 // Add options-disabled class to prevent further clicks\
-                optionsContainer.classList.add('options-disabled');\
-\
-\
-                showFeedback(); // Display feedback message\
-                nextBtn.classList.remove('hidden'); // Show the next button\
-                nextBtn.disabled = false; // Enable the next button\
-            \}\
-\
-            // Function to display feedback (correct or wrong answer)\
-            function showFeedback() \{\
-                const questionData = quizData[currentPart].questions[currentQuestion];\
-                const selectedOption = userAnswers[currentQuestion];\
-                const isCorrect = selectedOption === questionData.answer;\
-\
-                feedbackElement.classList.remove('hidden'); // Show the feedback element\
-                if (isCorrect) \{\
-                    // Styling and message for a correct answer\
-                    feedbackElement.className = 'mb-6 p-5 rounded-lg text-center text-lg bg-green-100 text-green-800 font-semibold';\
-                    feedbackElement.innerHTML = '<span class="text-2xl mr-2">
-\f2 \uc0\u10003 
-\f0 </span> 
-\f1 \'a4\'d3\'b4\'ce\'a4\'46\'a1\'41\'b5\'aa\'b9\'ef\'a4\'46\'a1\'49
-\f0 ';\
-                \} else \{\
-                    // Styling and message for a wrong answer, showing the correct answer\
-                    feedbackElement.className = 'mb-6 p-5 rounded-lg text-center text-lg bg-red-100 text-red-800 font-semibold';\
-                    feedbackElement.innerHTML = `<span class="text-2xl mr-2">
-\f3 \uc0\u10007 
-\f0 </span> 
-\f1 \'a5\'69\'b1\'a4\'b5\'aa\'bf\'f9\'a4\'46\'a1\'49\'a5\'bf\'bd\'54\'b5\'aa\'ae\'d7\'ac\'4f\'a1\'47
-\f0 <strong>$\{questionData.answer\}</strong>`;\
-                \}\
-            \}\
-\
-            // Function to update the visibility of the Previous and Next buttons\
-            function updateNavigationButtons() \{\
-                // Hide Previous button on the first question\
-                prevBtn.classList.toggle('hidden', currentQuestion === 0);\
-                // Show Next button only if the current question has been answered\
-                nextBtn.classList.toggle('hidden', userAnswers[currentQuestion] === null);\
-                // Disable Next button if the current question is not answered\
-                nextBtn.disabled = userAnswers[currentQuestion] === null;\
-\
-                // If it's the last question of the last part, the Next button will lead to final results\
-                if (currentPart === quizData.length - 1 && currentQuestion === quizData[currentPart].questions.length - 1 && userAnswers[currentQuestion] !== null) \{\
-                     nextBtn.textContent = '
-\f1 \'ac\'64\'ac\'dd\'b3\'cc\'b2\'d7\'b5\'b2\'aa\'47
-\f0 ';\
-                \} else if (userAnswers[currentQuestion] !== null) \{\
-                     nextBtn.textContent = '
-\f1 \'a4\'55\'a4\'40\'c3\'44
-\f0 ';\
-                \} else \{\
-                     nextBtn.textContent = '
-\f1 \'a4\'55\'a4\'40\'c3\'44
-\f0 '; // Default text\
-                \}\
-            \}\
-\
-            // Function to navigate to the previous question\
-            function showPreviousQuestion() \{\
-                if (currentQuestion > 0) \{\
-                    currentQuestion--; // Decrement question index\
-                    loadQuestion(); // Load the previous question\
-                \}\
-            \}\
-\
-            // Function to navigate to the next question or show results\
-            function showNextQuestion() \{\
-                // Check if there are more questions in the current part\
-                if (currentQuestion < quizData[currentPart].questions.length - 1) \{\
-                    currentQuestion++; // Increment question index\
-                    loadQuestion(); // Load the next question\
-                \} else \{\
-                    // If it's the last question, show the results\
-                    showResults();\
-                \}\
-            \}\
-\
-            // Function to display the results of the current part\
-            function showResults() \{\
-                quizSection.classList.add('hidden'); // Hide the quiz section\
-                resultsSection.classList.remove('hidden'); // Show the results section\
-\
-                let resultsHTML = `\
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-lg mb-6">\
-                        <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">$\{quizData[currentPart].title\} - 
-\f1 \'b3\'cc\'b2\'d7\'b1\'6f\'a4\'c0
-\f0 : <span class="text-blue-600">$\{score\}</span>/$\{quizData[currentPart].questions.length\}</h3>\
-                        <div class="space-y-4">`;\
-\
-                // Generate HTML for each question's result\
-                quizData[currentPart].questions.forEach((questionData, index) => \{\
-                    const userAnswer = userAnswers[index];\
-                    const isCorrect = userAnswer === questionData.answer;\
-                    resultsHTML += `\
-                        <div class="p-4 rounded-lg $\{isCorrect ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'\}">\
-                            <p class="font-semibold text-gray-700">$\{index + 1\}. $\{questionData.question\}</p>\
-                            <p class="text-sm">
-\f1 \'a7\'41\'aa\'ba\'b5\'aa\'ae\'d7
-\f0 : <span class="$\{isCorrect ? 'text-green-700' : 'text-red-700'\} font-medium">$\{userAnswer || '
-\f1 \'a5\'bc\'a7\'40\'b5\'aa
-\f0 '\}</span></p>\
-                            $\{!isCorrect ? `<p class="text-sm">
-\f1 \'a5\'bf\'bd\'54\'b5\'aa\'ae\'d7
-\f0 : <span class="text-green-700 font-medium">$\{questionData.answer\}</span></p>` : ''\}\
-                        </div>`;\
-                \});\
-\
-                resultsHTML += `</div></div>`;\
-                resultsContent.innerHTML = resultsHTML; // Inject results HTML into the page\
-\
-                // Show appropriate buttons based on whether there are more parts\
-                if (currentPart < quizData.length - 1) \{\
-                    partCompleteButtons.classList.remove('hidden'); // Show buttons for continuing to next part or restarting current part\
-                    finalButtons.classList.add('hidden'); // Hide final game restart button\
-                \} else \{\
-                    partCompleteButtons.classList.add('hidden'); // Hide part complete buttons\
-                    finalButtons.classList.remove('hidden'); // Show final game restart button\
-                \}\
-            \}\
-\
-            // Function to restart the current quiz part\
-            function restartPart() \{\
-                resultsSection.classList.add('hidden'); // Hide results\
-                quizSection.classList.remove('hidden'); // Show quiz section\
-                initializePart(); // Re-initialize the current part\
-            \}\
-\
-            // Function to proceed to the next quiz part\
-            function nextPart() \{\
-                currentPart++; // Increment part index\
-                resultsSection.classList.add('hidden'); // Hide results\
-                quizSection.classList.remove('hidden'); // Show quiz section\
-                initializePart(); // Initialize the next part\
-            \}\
-\
-            // Function to restart the entire game from the welcome screen\
-            function restartGame() \{\
-                resultsSection.classList.add('hidden'); // Hide results\
-                quizSection.classList.add('hidden'); // Hide quiz section\
-                welcomeScreen.classList.remove('hidden'); // Show welcome screen\
-                // Game state will be reset by startGame function when the user clicks "
-\f1 \'b6\'7d\'a9\'6c\'ac\'44\'be\'d4\'a1\'49
-\f0 " again.\
-            \}\
-        \});\
-    </script>\
-</body>\
-</html>\
-}
+        /* Styling for disabled option cards after answer */
+        .options-disabled .card {
+            pointer-events: none; /* Disable click events */
+        }
+         .options-disabled .card:hover {
+            transform: none; /* Remove hover transform */
+            box-shadow: none; /* Remove hover shadow */
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <div class="container mx-auto px-4 py-8 max-w-3xl">
+        <div class="text-center mb-10 p-6 rounded-xl shadow-lg header-gradient">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">雙語學習挑戰</h1>
+            <p class="text-lg text-indigo-100 mb-2">（台語 / 英文）</p>
+            <p class="text-sm text-indigo-200">由 Gloria 吳秀蘭老師設計</p>
+            <div class="flex justify-center items-center space-x-2 mt-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                </svg>
+                <a href="https://youtu.be/PrF6aT8mi_c?si=SUJtXRbfiitB2kU1" target="_blank" class="text-white hover:underline font-medium">
+                    參考影片教學
+                </a>
+            </div>
+        </div>
+
+        <div id="game-container" class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 mb-8">
+            <div id="welcome-screen" class="text-center py-10">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">歡迎來到台語英文互動學習！</h2>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    本遊戲包含兩大挑戰：<br>
+                    1. <span class="font-semibold text-blue-600">台語漢字</span> 配對 <span class="font-semibold text-green-600">英文翻譯</span> (10題)<br>
+                    2. <span class="font-semibold text-green-600">英文翻譯</span> 配對 <span class="font-semibold text-blue-600">台語漢字</span> (10題)
+                </p>
+                <p class="text-gray-600 mb-10">準備好開始了嗎？</p>
+                <button id="start-game" class="btn-primary text-lg transform hover:scale-105">
+                    開始挑戰！
+                </button>
+            </div>
+
+            <div id="quiz-section" class="hidden">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b border-gray-200">
+                    <h2 id="quiz-title" class="text-2xl font-bold text-blue-700 mb-2 sm:mb-0"></h2>
+                    <div class="flex items-center bg-gray-100 px-4 py-2 rounded-lg">
+                        <span class="mr-2 text-gray-700 text-sm">目前得分:</span>
+                        <span id="score" class="text-xl font-bold text-blue-600">0</span>
+                        <span class="mx-1 text-gray-500">/</span>
+                        <span id="total-questions" class="text-xl font-bold text-gray-600">10</span>
+                    </div>
+                </div>
+                <div class="mb-8">
+                    <div class="bg-blue-50 p-6 rounded-lg shadow-md mb-6">
+                        <h3 class="text-md font-semibold text-gray-500 mb-2">題目 <span id="current-question" class="text-blue-700 font-bold">1</span>/10:</h3>
+                        <p id="question" class="text-3xl font-bold text-blue-800"></p>
+                    </div>
+                    <div id="options" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        </div>
+                </div>
+                <div id="feedback" class="hidden mb-6 p-5 rounded-lg text-center text-lg"></div>
+                <div class="flex justify-between items-center mt-8">
+                    <button id="prev-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hidden transition-colors">
+                        上一題
+                    </button>
+                    <button id="next-btn" class="btn-primary py-3 px-7 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hidden transform hover:scale-105">
+                        下一題
+                    </button>
+                </div>
+            </div>
+
+            <div id="results-section" class="hidden">
+                <h2 class="text-3xl font-bold text-blue-700 mb-8 text-center">測驗結果</h2>
+                <div id="results-content" class="mb-8">
+                </div>
+                <div id="part-complete-buttons" class="hidden flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4">
+                    <button id="restart-part" class="btn-primary">
+                        重新測驗本部分
+                    </button>
+                    <button id="next-part" class="btn-secondary">
+                        挑戰下一部分
+                    </button>
+                </div>
+                 <div id="final-buttons" class="hidden flex justify-center space-x-4 mt-6">
+                    <button id="restart-game" class="btn-primary text-lg">
+                        重新開始遊戲
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center mt-12 mb-6">
+            <p class="text-sm text-gray-500">© <span id="current-year"></span> 雙語學習挑戰. Gloria 吳秀蘭老師設計.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set the current year in the footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Quiz data: Contains different parts with questions and answers
+            const quizData = [
+                {
+                    title: "第一部分：台語漢字配對英文翻譯",
+                    questions: [
+                        { question: "好天", options: ["Good day", "Good night", "Good morning", "Good weather"], answer: "Good weather" },
+                        { question: "落雨", options: ["Sunny", "Rainy", "Cloudy", "Windy"], answer: "Rainy" },
+                        { question: "透早", options: ["Evening", "Afternoon", "Morning", "Night"], answer: "Morning" },
+                        { question: "欲睏", options: ["Hungry", "Thirsty", "Sleepy", "Tired"], answer: "Sleepy" },
+                        { question: "食飯", options: ["Eat rice/meal", "Drink water", "Take a walk", "Go shopping"], answer: "Eat rice/meal" },
+                        { question: "洗身軀", options: ["Wash clothes", "Take a bath", "Brush teeth", "Wash hands"], answer: "Take a bath" },
+                        { question: "讀冊", options: ["Watch TV", "Study", "Play games", "Listen to music"], answer: "Study" },
+                        { question: "行路", options: ["Run", "Walk", "Jump", "Swim"], answer: "Walk" },
+                        { question: "講話", options: ["Listen", "Speak", "Read", "Write"], answer: "Speak" },
+                        { question: "歡喜", options: ["Sad", "Angry", "Happy", "Scared"], answer: "Happy" }
+                    ]
+                },
+                {
+                    title: "第二部分：英文翻譯配對台語漢字",
+                    questions: [
+                        { question: "Cold", options: ["熱", "冷", "燒", "涼"], answer: "冷" },
+                        { question: "Water", options: ["茶", "酒", "水", "湯"], answer: "水" },
+                        { question: "Thank you", options: ["對不起", "再見", "你好", "多謝"], answer: "多謝" },
+                        { question: "Beautiful", options: ["媠", "醜", "好", "壞"], answer: "媠" },
+                        { question: "Friend", options: ["家己人", "朋友", "老師", "學生"], answer: "朋友" },
+                        { question: "School", options: ["公園", "市場", "學校", "醫院"], answer: "學校" },
+                        { question: "Money", options: ["錢", "物件", "時間", "力氣"], answer: "錢" },
+                        { question: "Family", options: ["厝邊", "朋友", "家庭", "同事"], answer: "家庭" },
+                        { question: "Delicious", options: ["好食", "難食", "好看", "好聽"], answer: "好食" },
+                        { question: "Tomorrow", options: ["今仔日", "明仔載", "昨昏", "後日"], answer: "明仔載" }
+                    ]
+                }
+            ];
+
+            // Game state variables
+            let currentPart = 0; // Index of the current quiz part
+            let currentQuestion = 0; // Index of the current question within the part
+            let score = 0; // Current score for the part
+            let userAnswers = []; // Array to store user's answers for the current part
+            let answeredThisTurn = false; // Flag to prevent multiple clicks on options for one question
+
+            // Get references to DOM elements
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const quizSection = document.getElementById('quiz-section');
+            const resultsSection = document.getElementById('results-section');
+            const quizTitle = document.getElementById('quiz-title');
+            const scoreElement = document.getElementById('score');
+            const totalQuestionsElement = document.getElementById('total-questions');
+            const currentQuestionElement = document.getElementById('current-question');
+            const questionElement = document.getElementById('question');
+            const optionsContainer = document.getElementById('options');
+            const feedbackElement = document.getElementById('feedback');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const resultsContent = document.getElementById('results-content');
+            const partCompleteButtons = document.getElementById('part-complete-buttons');
+            const finalButtons = document.getElementById('final-buttons');
+
+            // Add event listeners to buttons
+            document.getElementById('start-game').addEventListener('click', startGame);
+            document.getElementById('restart-part').addEventListener('click', restartPart);
+            document.getElementById('next-part').addEventListener('click', nextPart);
+            document.getElementById('restart-game').addEventListener('click', restartGame);
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', showNextQuestion);
+
+            // Function to start the game from the welcome screen
+            function startGame() {
+                welcomeScreen.classList.add('hidden'); // Hide welcome screen
+                quizSection.classList.remove('hidden'); // Show quiz section
+                resultsSection.classList.add('hidden'); // Ensure results are hidden
+                currentPart = 0; // Start with the first part
+                initializePart(); // Initialize the first quiz part
+            }
+
+            // Function to initialize a new quiz part
+            function initializePart() {
+                currentQuestion = 0; // Start with the first question of the part
+                score = 0; // Reset score for the new part
+                // Initialize userAnswers array with nulls for each question in the part
+                userAnswers = Array(quizData[currentPart].questions.length).fill(null);
+                quizTitle.textContent = quizData[currentPart].title; // Set the title for the current part
+                scoreElement.textContent = score; // Display initial score
+                totalQuestionsElement.textContent = quizData[currentPart].questions.length; // Display total questions
+                loadQuestion(); // Load the first question
+            }
+
+            // Function to load and display the current question and its options
+            function loadQuestion() {
+                answeredThisTurn = false; // Reset answered state for the new question
+                const questionData = quizData[currentPart].questions[currentQuestion]; // Get data for the current question
+
+                // Update question number display
+                currentQuestionElement.textContent = currentQuestion + 1;
+                // Display the question text
+                questionElement.textContent = questionData.question;
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                // Remove options-disabled class from options container
+                optionsContainer.classList.remove('options-disabled');
+
+                // Create and display option cards
+                questionData.options.forEach((optionText) => {
+                    const optionCard = document.createElement('div');
+                    // Apply base card styling with Tailwind classes
+                    optionCard.className = 'card bg-white border-2 border-gray-200 rounded-lg p-5 cursor-pointer transition-all duration-200 ease-in-out text-gray-700 text-lg';
+                    optionCard.textContent = optionText; // Set option text
+                    optionCard.dataset.option = optionText; // Store the option text in a data attribute
+
+                    // Check if this question was already answered (e.g., when navigating back)
+                    if (userAnswers[currentQuestion] !== null) {
+                        // If the question was answered, apply appropriate styling
+                        answeredThisTurn = true; // Set answered state
+                        optionCard.classList.add('cursor-not-allowed'); // Disable clicks
+
+                        // Apply styling based on whether this option was the user's answer
+                        if (optionText === userAnswers[currentQuestion]) {
+                             if (optionText === questionData.answer) {
+                                // User's answer was correct
+                                optionCard.classList.add('bg-green-50', 'border-green-500', 'text-green-700');
+                            } else {
+                                // User's answer was wrong
+                                optionCard.classList.add('bg-red-50', 'border-red-500', 'text-red-700');
+                            }
+                        }
+                         // If this option is the correct answer and the user picked something else, highlight the correct answer
+                        else if (optionText === questionData.answer && userAnswers[currentQuestion] !== questionData.answer) {
+                             optionCard.classList.add('bg-green-50', 'border-green-400', 'text-green-600');
+                        }
+                         // Remove hover effects for answered questions
+                         optionCard.classList.remove('hover:border-blue-500', 'hover:text-blue-600', 'hover:shadow-lg');
+
+                    } else {
+                        // If the question is not answered, add click listener
+                        optionCard.addEventListener('click', () => selectOption(optionText, optionCard));
+                         // Add hover effects for unanswered questions
+                        optionCard.classList.add('hover:border-blue-500', 'hover:text-blue-600', 'hover:shadow-lg');
+                    }
+                    optionsContainer.appendChild(optionCard); // Add option card to the container
+                });
+
+                updateNavigationButtons(); // Update the visibility of navigation buttons
+                feedbackElement.classList.add('hidden'); // Hide feedback initially
+                // Show feedback if the question was already answered
+                if (userAnswers[currentQuestion] !== null) {
+                    showFeedback();
+                    // Add options-disabled class to prevent further clicks
+                    optionsContainer.classList.add('options-disabled');
+                }
+            }
+
+            // Function to handle user selecting an option
+            function selectOption(selectedOption, selectedCard) {
+                if (answeredThisTurn) return; // Prevent re-answering if already answered
+                answeredThisTurn = true; // Mark question as answered for this turn
+
+                const questionData = quizData[currentPart].questions[currentQuestion]; // Get current question data
+                const isCorrect = selectedOption === questionData.answer; // Check if the selected option is correct
+                userAnswers[currentQuestion] = selectedOption; // Store the user's answer
+
+                // Update score and apply styling based on correctness
+                if (isCorrect) {
+                    score++; // Increment score if correct
+                    scoreElement.textContent = score; // Update score display
+                    selectedCard.classList.add('bg-green-100', 'border-green-500', 'correct-answer', 'text-green-700');
+                } else {
+                    selectedCard.classList.add('bg-red-100', 'border-red-500', 'wrong-answer', 'text-red-700');
+                }
+
+                // Disable all options after an answer is selected
+                optionsContainer.querySelectorAll('.card').forEach(optCard => {
+                    optCard.removeEventListener('click', () => selectOption(optCard.dataset.option, optCard)); // Remove click listeners
+                    optCard.classList.add('cursor-not-allowed'); // Change cursor
+                    // Remove hover effects
+                    optCard.classList.remove('hover:border-blue-500', 'hover:text-blue-600', 'hover:shadow-lg');
+
+                    // Highlight the correct answer if the user's answer was wrong
+                    if (optCard.dataset.option === questionData.answer && !isCorrect) {
+                        optCard.classList.add('bg-green-100', 'border-green-500', 'text-green-700');
+                        optCard.classList.remove('bg-red-100', 'border-red-500', 'text-red-700'); // Ensure no conflicting red styling
+                    }
+                });
+
+                 // Add options-disabled class to prevent further clicks
+                optionsContainer.classList.add('options-disabled');
+
+
+                showFeedback(); // Display feedback message
+                nextBtn.classList.remove('hidden'); // Show the next button
+                nextBtn.disabled = false; // Enable the next button
+            }
+
+            // Function to display feedback (correct or wrong answer)
+            function showFeedback() {
+                const questionData = quizData[currentPart].questions[currentQuestion];
+                const selectedOption = userAnswers[currentQuestion];
+                const isCorrect = selectedOption === questionData.answer;
+
+                feedbackElement.classList.remove('hidden'); // Show the feedback element
+                if (isCorrect) {
+                    // Styling and message for a correct answer
+                    feedbackElement.className = 'mb-6 p-5 rounded-lg text-center text-lg bg-green-100 text-green-800 font-semibold';
+                    feedbackElement.innerHTML = '<span class="text-2xl mr-2">✓</span> 太棒了，答對了！';
+                } else {
+                    // Styling and message for a wrong answer, showing the correct answer
+                    feedbackElement.className = 'mb-6 p-5 rounded-lg text-center text-lg bg-red-100 text-red-800 font-semibold';
+                    feedbackElement.innerHTML = `<span class="text-2xl mr-2">✗</span> 可惜答錯了！正確答案是：<strong>${questionData.answer}</strong>`;
+                }
+            }
+
+            // Function to update the visibility of the Previous and Next buttons
+            function updateNavigationButtons() {
+                // Hide Previous button on the first question
+                prevBtn.classList.toggle('hidden', currentQuestion === 0);
+                // Show Next button only if the current question has been answered
+                nextBtn.classList.toggle('hidden', userAnswers[currentQuestion] === null);
+                // Disable Next button if the current question is not answered
+                nextBtn.disabled = userAnswers[currentQuestion] === null;
+
+                // If it's the last question of the last part, the Next button will lead to final results
+                if (currentPart === quizData.length - 1 && currentQuestion === quizData[currentPart].questions.length - 1 && userAnswers[currentQuestion] !== null) {
+                     nextBtn.textContent = '查看最終結果';
+                } else if (userAnswers[currentQuestion] !== null) {
+                     nextBtn.textContent = '下一題';
+                } else {
+                     nextBtn.textContent = '下一題'; // Default text
+                }
+            }
+
+            // Function to navigate to the previous question
+            function showPreviousQuestion() {
+                if (currentQuestion > 0) {
+                    currentQuestion--; // Decrement question index
+                    loadQuestion(); // Load the previous question
+                }
+            }
+
+            // Function to navigate to the next question or show results
+            function showNextQuestion() {
+                // Check if there are more questions in the current part
+                if (currentQuestion < quizData[currentPart].questions.length - 1) {
+                    currentQuestion++; // Increment question index
+                    loadQuestion(); // Load the next question
+                } else {
+                    // If it's the last question, show the results
+                    showResults();
+                }
+            }
+
+            // Function to display the results of the current part
+            function showResults() {
+                quizSection.classList.add('hidden'); // Hide the quiz section
+                resultsSection.classList.remove('hidden'); // Show the results section
+
+                let resultsHTML = `
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-lg mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">${quizData[currentPart].title} - 最終得分: <span class="text-blue-600">${score}</span>/${quizData[currentPart].questions.length}</h3>
+                        <div class="space-y-4">`;
+
+                // Generate HTML for each question's result
+                quizData[currentPart].questions.forEach((questionData, index) => {
+                    const userAnswer = userAnswers[index];
+                    const isCorrect = userAnswer === questionData.answer;
+                    resultsHTML += `
+                        <div class="p-4 rounded-lg ${isCorrect ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}">
+                            <p class="font-semibold text-gray-700">${index + 1}. ${questionData.question}</p>
+                            <p class="text-sm">你的答案: <span class="${isCorrect ? 'text-green-700' : 'text-red-700'} font-medium">${userAnswer || '未作答'}</span></p>
+                            ${!isCorrect ? `<p class="text-sm">正確答案: <span class="text-green-700 font-medium">${questionData.answer}</span></p>` : ''}
+                        </div>`;
+                });
+
+                resultsHTML += `</div></div>`;
+                resultsContent.innerHTML = resultsHTML; // Inject results HTML into the page
+
+                // Show appropriate buttons based on whether there are more parts
+                if (currentPart < quizData.length - 1) {
+                    partCompleteButtons.classList.remove('hidden'); // Show buttons for continuing to next part or restarting current part
+                    finalButtons.classList.add('hidden'); // Hide final game restart button
+                } else {
+                    partCompleteButtons.classList.add('hidden'); // Hide part complete buttons
+                    finalButtons.classList.remove('hidden'); // Show final game restart button
+                }
+            }
+
+            // Function to restart the current quiz part
+            function restartPart() {
+                resultsSection.classList.add('hidden'); // Hide results
+                quizSection.classList.remove('hidden'); // Show quiz section
+                initializePart(); // Re-initialize the current part
+            }
+
+            // Function to proceed to the next quiz part
+            function nextPart() {
+                currentPart++; // Increment part index
+                resultsSection.classList.add('hidden'); // Hide results
+                quizSection.classList.remove('hidden'); // Show quiz section
+                initializePart(); // Initialize the next part
+            }
+
+            // Function to restart the entire game from the welcome screen
+            function restartGame() {
+                resultsSection.classList.add('hidden'); // Hide results
+                quizSection.classList.add('hidden'); // Hide quiz section
+                welcomeScreen.classList.remove('hidden'); // Show welcome screen
+                // Game state will be reset by startGame function when the user clicks "開始挑戰！" again.
+            }
+        });
+    </script>
+</body>
+</html>
